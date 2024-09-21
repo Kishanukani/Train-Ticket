@@ -1,0 +1,67 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.booking-list {
+    margin-top: 20px;
+}
+
+/* Styling for each booking item */
+.booking-item {
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.booking-item h3 {
+    margin: 0 0 10px;
+    color: #4CAF50;
+}
+
+.booking-item p {
+    margin: 5px 0;
+    color: #555;
+}
+
+strong {
+    color: #333;
+}
+
+/* Button styling */
+.btn {
+    display: block;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}

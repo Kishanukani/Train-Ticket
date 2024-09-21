@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Search and Seat Availability</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Train Search</h1>
+
+        <form onsubmit="event.preventDefault(); searchTrains();">
+            <label for="source">Source:</label>
+            <input type="text" id="source" placeholder="Enter Source" required>
+
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" placeholder="Enter Destination" required>
+
+            <label for="travelDate">Travel Date:</label>
+            <input type="date" id="travelDate" required>
+
+            <button type="submit">Search Trains</button>
+        </form>
+
+        <div id="searchResults" class="hidden">
+            <h2>Available Trains</h2>
+            <div id="trainList"></div>
+        </div>
+
+        <!-- Train Results Section -->
+        <div id="trainResults"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
