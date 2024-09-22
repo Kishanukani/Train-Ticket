@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trainsearch.html">Train Search</a></li>
+                <li><a href="booking-history.html">Booking History</a></li>
+            </ul>
+        </nav>
+
+        <h1>Booking Confirmation</h1>
+        <div id="confirmationDetails"></div>
+        <button class="back-button" onclick="window.location.href='trainsearch.html'">Back to Train Search</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const confirmationDetailsString = localStorage.getItem("bookingDetails");
+
+            if (confirmationDetailsString) {
+                // Split details into parts and clean up extra spaces
+                const trainDetailsArray = confirmationDetailsString;
+                const trainDetails = {};
+
+                // Map details into key-value pairs
+                trainDetailsArray.forEach(detail => {
+                    const [key, value] = detail.split(':');
+                    trainDetails[key.trim()] = value ? value.trim() : '';
+                });
+
+                const passengersString = trainDetails.Passengers;
+                const passengerDetails = passengersString ? passengersString.split('|') : [];
+
+                // Display Train and Passenger details
+                document.getElementById("confirmationDetails").innerHTML = `
+                    <div class="train-details">
+                        <h2>Train Details</h2>
+                        <p><strong>Train Name:</strong> ${trainDetails.trainName || "N/A"}</p>
+                        <p><strong>Source:</strong> ${trainDetails.source || "N/A"}</p>
+                        <p><strong>Destination:</strong> ${trainDetails.destination || "N/A"}</p>
+                    </div>
+
+                    <div class="passenger-details">
+                        <h2>Passenger Details</h2>
+                        ${passengerDetails.map((passenger, index) => `
+                            <div class="passenger">
+                                <h3>Passenger ${index + 1}</h3>
+                                <p>${passenger.replace(/,/g, '</p><p><strong>')}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                document.getElementById("confirmationDetails").innerHTML = "<p>No booking details found.</p>";
+            }
+        });
+    </script>
+</body>
+
+</html>

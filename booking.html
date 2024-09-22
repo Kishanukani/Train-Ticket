@@ -17,56 +17,41 @@
                 <li><a href="booking-history.html">Booking History</a></li>
             </ul>
         </nav>
-        <h1>Ticket Booking</h1>
 
+        <h1>Ticket Booking</h1>
         <div id="trainDetails"></div>
 
         <form id="bookingForm" onsubmit="event.preventDefault(); storePassengerDetails();">
-            <div id="passengerContainer">
-                <div class="passenger">
-                    <label for="passengerName">Passenger Name:</label>
-                    <input type="text" class="passengerName" required>
-
-                    <label for="age">Age:</label>
-                    <input type="number" class="age" required>
-
-                    <label for="seatClass">Seat Class:</label>
-                    <select class="seatClass" required>
-                        <option value="sleeper">Sleeper</option>
-                        <option value="ac">AC</option>
-                    </select>
-                </div>
-            </div>
-
+            <div id="passengerContainer"></div>
             <button type="button" onclick="addPassenger()">Add Another Passenger</button>
             <button type="submit">Book Tickets</button>
         </form>
 
         <button class="back-button" onclick="window.location.href='trainsearch.html'">Back to Search</button>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const selectedTrainString = localStorage.getItem("selectedTrain");
-
             if (selectedTrainString) {
                 const trainDetailsArray = selectedTrainString.split(',');
-
                 const trainDetails = {};
                 trainDetailsArray.forEach(detail => {
                     const [key, value] = detail.split(':');
-                    trainDetails[key] = value; // Store key-value pairs
+                    trainDetails[key.trim()] = value.trim();
                 });
 
                 document.getElementById("trainDetails").innerHTML = `
-            <h2>Train: ${trainDetails.trainName}</h2>
-            <p>Source: ${trainDetails.source}</p>
-            <p>Destination: ${trainDetails.destination}</p>
-            <p>Available Sleeper Seats: ${trainDetails.availableSleeper}</p>
-            <p>Available AC Seats: ${trainDetails.availableAC}</p>
-        `;
+                    <h2>Train: ${trainDetails.trainName}</h2>
+                    <p>Source: ${trainDetails.source}</p>
+                    <p>Destination: ${trainDetails.destination}</p>
+                    <p>Travel Date: ${trainDetails.date}</p>
+                    <p>Available Sleeper Seats: ${trainDetails.availableSleeper}</p>
+                    <p>Available AC Seats: ${trainDetails.availableAC}</p>
+                `;
             }
+            addPassenger();
         });
-
 
         function addPassenger() {
             const passengerContainer = document.getElementById("passengerContainer");
@@ -76,10 +61,10 @@
             newPassenger.innerHTML = `
                 <label for="passengerName">Passenger Name:</label>
                 <input type="text" class="passengerName" required>
-    
+
                 <label for="age">Age:</label>
                 <input type="number" class="age" required>
-    
+
                 <label for="seatClass">Seat Class:</label>
                 <select class="seatClass" required>
                     <option value="sleeper">Sleeper</option>
@@ -98,36 +83,32 @@
         function storePassengerDetails() {
             const passengers = [];
             const passengerDivs = document.querySelectorAll(".passenger");
-
             passengerDivs.forEach(div => {
                 const name = div.querySelector('.passengerName').value;
                 const age = div.querySelector('.age').value;
                 const seatClass = div.querySelector('.seatClass').value;
-
                 passengers.push(`Name: ${name}, Age: ${age}, Seat Class: ${seatClass}`);
             });
 
-            // Get train details from localStorage
             const trainDetailsString = localStorage.getItem("selectedTrain");
-
             if (trainDetailsString) {
                 const trainDetailsArray = trainDetailsString.split(',');
-
-                if (trainDetailsArray.length >= 5) { // Ensure there are enough details
+                if (trainDetailsArray.length >= 5) {
                     const bookingDetails = `
                         Train: ${trainDetailsArray[0]}, 
                         Source: ${trainDetailsArray[1]}, 
                         Destination: ${trainDetailsArray[2]}, 
-                        Available Sleeper Seats: ${trainDetailsArray[3]}, 
-                        Available AC Seats: ${trainDetailsArray[4]},
-                        Passengers: ${passengers.join(' | ')}
+                        Date: ${trainDetailsArray[3]}, 
+                        Passengers: ${passengers.join(' / ')}
                     `;
 
-                    // Store bookingDetails in localStorage
-                    localStorage.setItem("bookingDetails", bookingDetails); // No trim used
+                    // Append booking details to booking history
+                    const existingHistory = localStorage.getItem("bookingHistory") || "";
+                    localStorage.setItem("bookingHistory", existingHistory + bookingDetails + '|');
 
+                    localStorage.setItem("bookingDetails", bookingDetails);
                     alert("Booking successful!");
-                    window.open("payment.html", "_blank"); // Open payment page in a new tab
+                    window.open("payment.html", "_blank");
                 } else {
                     alert("Error: Incomplete train details.");
                 }
@@ -136,7 +117,6 @@
             }
         }
     </script>
-
 </body>
 
 </html>

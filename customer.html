@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Portal</title>
+    <link rel="stylesheet" href="US1/styles.css">
+</head>
+
+<body>
+    <div id="customerPortal" style="display:none;"></div>
+    <h2>Welcome to the Customer Portal</h2>
+    <div class="tabs">
+        <button onclick="showTab('home')">Home</button>
+        <button onclick="showTab('bookTicket')">Book Ticket</button>
+        <button onclick="showTab('viewTickets')">View Tickets</button>
+        <button onclick="showTab('updateDetails')">Update Details</button>
+        <button onclick="window.location.href='trainsearch.html'">Sprint 1</button>
+        <!-- <button onclick="alert('Button clicked!')">Sprint 1</button> -->
+
+
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Home - Aggregate Table -->
+    <div id="homeTab" class="tab-content">
+        <h3>Aggregate Table</h3>
+        <table border="1">
+            <tr>
+                <th>Class</th>
+                <th>Tickets Booked</th>
+                <th>Sales Done (Per Quarter)</th>
+            </tr>
+            <tr>
+                <td>First Class</td>
+                <td>30</td>
+                <td>&#8377;3000</td>
+            </tr>
+            <tr>
+                <td>A.C Tier 1</td>
+                <td>50</td>
+                <td>&#8377;5000</td>
+            </tr>
+            <tr>
+                <td>A.C Tier 2</td>
+                <td>20</td>
+                <td>&#8377;2000</td>
+            </tr>
+            <tr>
+                <td>Tatkal</td>
+                <td>10</td>
+                <td>&#8377;1000</td>
+            </tr>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
