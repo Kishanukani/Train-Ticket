@@ -1,117 +1,136 @@
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f4f8;
-    color: #333;
+    background-color: #f9f9f9;
 }
 
-h1, h2 {
-    text-align: center;
-    color: #444;
-    margin-bottom: 20px;
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
 }
 
 .container {
     max-width: 800px;
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 20px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: white;
     border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
 }
 
 /* Form Styles */
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
-form label {
-    font-weight: bold;
+label {
+    margin-bottom: 5px;
 }
 
-form input, form select, form button {
+input, select, button {
+    margin-bottom: 15px;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-form button {
+button {
     background-color: #28a745;
     color: white;
-    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-form button:hover {
+button:hover {
     background-color: #218838;
 }
 
 /* Train List Styles */
-#trainResults {
-    margin-top: 30px;
-}
-
 .train {
-    padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    transition: transform 0.2s;
-}
-
-.train:hover {
-    transform: translateY(-3px);
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .train h3 {
-    margin: 0 0 10px;
-    color: #333;
+    margin: 0;
 }
 
-.train p {
-    margin: 5px 0;
-    color: #555;
+/* Booking History Styles */
+.booking {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
-.train button {
+/* Back Button Styles */
+.back-button {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 10px;
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    border-radius: 5px;
 }
 
-.train button:hover {
+.back-button:hover {
     background-color: #0056b3;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 15px;
-    }
+/* Filter Styles */
+#search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-    form input, form select, form button {
-        font-size: 14px;
-    }
+/* Confirmation Page Styles */
+.confirmation {
+    text-align: left;
+}
 
-    .train button {
-        font-size: 14px;
-    }
+.confirmation p {
+    margin: 5px 0;
+}
+
+
+.hidden {
+    display: none;
 }
 
 
 
+
+
+.passenger {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

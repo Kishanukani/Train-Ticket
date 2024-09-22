@@ -4,37 +4,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Train Search and Seat Availability</title>
+    <title>Train Search</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
         <h1>Train Search</h1>
-
-        <form onsubmit="event.preventDefault(); searchTrains();">
-            <label for="source">Source:</label>
-            <input type="text" id="source" placeholder="Enter Source" required>
-
+        <form id="trainSearchForm" onsubmit="event.preventDefault(); searchTrains();">
+            <label for="source">Origin:</label>
+            <input type="text" id="source" required>
             <label for="destination">Destination:</label>
-            <input type="text" id="destination" placeholder="Enter Destination" required>
-
-            <label for="travelDate">Travel Date:</label>
+            <input type="text" id="destination" required>
+            <label for="travelDate">Date:</label>
             <input type="date" id="travelDate" required>
-
             <button type="submit">Search Trains</button>
         </form>
-
         <div id="searchResults" class="hidden">
             <h2>Available Trains</h2>
             <div id="trainList"></div>
         </div>
-
-        <!-- Train Results Section -->
-        <div id="trainResults"></div>
     </div>
+    <script>
+        const trains = [
+            {
+                name: "Express 101",
+                source: "cityA",
+                destination: "cityB",
+                availableSeats: { sleeper: 20, ac: 10 },
+                travelDates: ["2024-09-22", "2024-09-23"],
+                stations: ["cityA", "cityC", "cityD", "cityB"],
+            },
+            {
+                name: "Fast Express",
+                source: "cityA",
+                destination: "cityB",
+                availableSeats: { sleeper: 15, ac: 5 },
+                travelDates: ["2024-09-22", "2024-09-24"],
+                stations: ["cityA", "cityE", "cityB"],
+            },
+        ];
 
-    <script src="script.js"></script>
+        function searchTrains() {
+            const sourceInput = document.getElementById("source").value;
+            const destinationInput = document.getElementById("destination").value;
+            const dateInput = document.getElementById("travelDate").value;
+
+            const availableTrains = trains.filter(train => {
+                const sourceMatches = train.stations.includes(sourceInput) || train.source.toLowerCase() === sourceInput.toLowerCase();
+                const destinationMatches = train.stations.includes(destinationInput) || train.destination.toLowerCase() === destinationInput.toLowerCase();
+                const dateMatches = train.travelDates.includes(dateInput);
+
+                return sourceMatches && destinationMatches && dateMatches;
+            });
+
+            displayTrains(availableTrains);
+        }
+
+        function displayTrains(availableTrains) {
+            const resultContainer = document.getElementById("trainList");
+            resultContainer.innerHTML = "";
+
+            if (availableTrains.length === 0) {
+                resultContainer.innerHTML = "<p>No trains available for the given route and date.</p>";
+                return;
+            }
+
+            availableTrains.forEach(train => {
+                const trainElement = document.createElement("div");
+                trainElement.classList.add("train");
+
+                trainElement.innerHTML = `
+                    <h3>${train.name}</h3>
+                    <p>Source: ${train.source}</p>
+                    <p>Destination: ${train.destination}</p>
+                    <p>Available Seats (Sleeper): ${train.availableSeats.sleeper}</p>
+                    <p>Available Seats (AC): ${train.availableSeats.ac}</p>
+                    <p>Stations: ${train.stations.join(", ")}</p>
+                    <button onclick="selectTrain('${train.name}', '${train.source}', '${train.destination}', ${train.availableSeats.sleeper}, ${train.availableSeats.ac})">Select Train</button>
+                `;
+
+                resultContainer.appendChild(trainElement);
+            });
+
+            document.getElementById("searchResults").classList.remove("hidden");
+        }
+
+        function selectTrain(trainName, source, destination, availableSleeper, availableAC) {
+            const selectedTrain = `trainName:${trainName},source:${source},destination:${destination},availableSleeper:${availableSleeper},availableAC:${availableAC}`;
+
+            localStorage.setItem("selectedTrain", selectedTrain);
+
+            window.open("booking.html", "_blank");
+        }
+    </script>
 </body>
 
 </html>

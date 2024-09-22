@@ -5,50 +5,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking History</title>
-    <link rel="stylesheet" href="booking_history.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Your Booking History</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trainsearch.html">Train Search</a></li>
+                <li><a href="booking-history.html">Booking History</a></li>
+            </ul>
+        </nav>
+        <h1>Booking History</h1>
 
-        <div id="bookingList" class="booking-list"></div>
+        <div>
+            <label for="trainName">Train Name:</label>
+            <input type="text" id="trainName" placeholder="Filter by train name">
 
-        <!-- Navigation Button -->
-        <button id="backToSearch" class="btn">Back to Train Search</button>
+            <label for="bookingStatus">Booking Status:</label>
+            <select id="bookingStatus">
+                <option value="">All</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+
+            <label for="travelDate">Date:</label>
+            <input type="date" id="travelDate">
+
+            <button onclick="filterBookings()">Search</button>
+            <button onclick="resetFilters()">Reset</button>
+        </div>
+
+        <div id="bookingList"></div>
     </div>
-
-    <script src="booking-history.js"></script>
     <script>
-        // Function to load booking history
         document.addEventListener("DOMContentLoaded", () => {
-            const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
-            const bookingListDiv = document.getElementById("bookingList");
+            displayBookings(); // Show all bookings on load
+        });
 
+        function displayBookings(bookings = []) {
             if (bookings.length === 0) {
-                bookingListDiv.innerHTML = "<p>No bookings found.</p>";
-                return;
+                bookings = JSON.parse(localStorage.getItem("bookings")) || [];
             }
 
-            bookings.forEach((booking, index) => {
-                bookingListDiv.innerHTML += `
-                    <div class="booking-item">
-                        <h3>Booking #${index + 1}</h3>
-                        <p><strong>Name:</strong> ${booking.name}</p>
-                        <p><strong>Age:</strong> ${booking.age}</p>
-                        <p><strong>Seat Class:</strong> ${booking.seatClass}</p>
-                        <p><strong>Train:</strong> ${booking.trainName}</p>
-                        <p><strong>Source:</strong> ${booking.source}</p>
-                        <p><strong>Destination:</strong> ${booking.destination}</p>
-                    </div>
-                `;
-            });
-        });
+            const bookingList = document.getElementById("bookingList");
+            bookingList.innerHTML = bookings.map(booking => `
+                <div class="booking">
+                    <p>Name: ${booking.name}</p>
+                    <p>Train: ${booking.trainName}</p>
+                    <p>Source: ${booking.source}</p>
+                    <p>Destination: ${booking.destination}</p>
+                    <p>Date: ${booking.date}</p>
+                    <p>Seat Class: ${booking.seatClass}</p>
+                    <p>Status: ${booking.status}</p>
+                </div>
+            `).join('');
+        }
 
-        // Add event listener to the back button
-        document.getElementById("backToSearch").addEventListener("click", function () {
-            window.location.href = "trainsearch.html"; // Adjust to your actual search page name
-        });
+        function filterBookings() {
+            const trainName = document.getElementById("trainName").value.toLowerCase();
+            const bookingStatus = document.getElementById("bookingStatus").value;
+            const travelDate = document.getElementById("travelDate").value;
+
+            const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+            const filteredBookings = bookings.filter(booking => {
+                const matchesTrain = trainName ? booking.trainName.toLowerCase().includes(trainName) : true;
+                const matchesStatus = bookingStatus ? booking.status === bookingStatus : true;
+                const matchesDate = travelDate ? booking.date === travelDate : true;
+
+                return matchesTrain && matchesStatus && matchesDate;
+            });
+
+            displayBookings(filteredBookings);
+        }
+
+        function resetFilters() {
+            document.getElementById("trainName").value = '';
+            document.getElementById("bookingStatus").value = '';
+            document.getElementById("travelDate").value = '';
+            displayBookings(); // Display all bookings again
+        }
     </script>
 </body>
 
