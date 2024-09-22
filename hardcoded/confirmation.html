@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Details</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .booking-details {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .details-title {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        .details-content {
+            color: #666;
+            white-space: pre-line;
+        }
+
+        .no-details {
+            color: red;
+            text-align: center;
+        }
+
+        .back-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trainsearch.html">Train Search</a></li>
+                <li><a href="booking-history.html">Booking History</a></li>
+            </ul>
+        </nav>
+        <h2>Your Booking Details</h2>
+        <div id="bookingDetails" class="booking-details"></div>
+
+        <a href="trainsearch.html" class="back-button">Back to Train Search</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const bookingDetails = localStorage.getItem("bookingDetails");
+            if (bookingDetails) {
+                // Format booking details with new lines for clarity
+                const formattedBookingDetails = bookingDetails.replace(/,\s*/g, '<br>');
+                document.getElementById("bookingDetails").innerHTML = `
+                    <div class="details-title">Booking Summary:</div>
+                    <div class="details-content">${formattedBookingDetails}</div>
+                `;
+            } else {
+                document.getElementById("bookingDetails").innerHTML = "<p class='no-details'>No booking details found.</p>";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

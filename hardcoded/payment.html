@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Payment Details</h1>
+
+        <form onsubmit="event.preventDefault(); processPayment();">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" placeholder="Enter your card number" required>
+
+            <label for="expiryDate">Expiry Date:</label>
+            <input type="month" id="expiryDate" required>
+
+            <label for="cvv">CVV:</label>
+            <input type="password" id="cvv" placeholder="Enter CVV" required maxlength="3">
+
+            <button type="submit">Complete Payment</button>
+        </form>
+    </div>
+
+    <script>
+        function processPayment() {
+            alert("Payment Successful! Booking Confirmed.");
+            window.location.href = "confirmation.html"; // Redirect to confirmation page
+        }
+    </script>
+
+</body>
+
+</html>

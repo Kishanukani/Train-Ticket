@@ -1,39 +1,4 @@
-let registeredUsers = [
-  {
-    username: "john_doe",
-    password: "John@1234",
-    email: "john@example.com",
-    mobile: "9876543210",
-    aadhar: "123456789012",
-    role: "customer",
-  },
-  {
-    username: "jane_admin",
-    password: "JaneAdmin@123",
-    email: "jane@example.com",
-    mobile: "8765432109",
-    aadhar: "987654321098",
-    role: "admin",
-  },
-  {
-    username: "sam_customer",
-    password: "SamCustomer@123",
-    email: "sam@example.com",
-    mobile: "9123456780",
-    aadhar: "123098765432",
-    role: "customer",
-  },
-  // {
-  //   username: "Kishan",
-  //   password: "Kishan@123",
-  //   role: "admin",
-  // },
-  {
-    username: "Kishan",
-    password: "Kishan@123",
-    role: "customer",
-  },
-];
+let registeredUsers = [];
 
 // Show registration page
 function showRegistration() {
@@ -65,7 +30,7 @@ function register() {
   }
 
   // Password validation
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+  const passwordRegex = /^(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&]).{8,}$/;
   if (!passwordRegex.test(password)) {
     alert(
       "Password must be at least 8 characters long and contain an upper case letter, a number, and a special character."
@@ -112,7 +77,8 @@ function login() {
     (user) => user.username === username && user.password === password
   );
 
-  // Default User Pass For admin and user
+  //------------Default User Pass For admin and user--------------------------------------------------------------------
+
   if (
     portalType == "customer" &&
     username == "rootuser" &&
@@ -131,6 +97,8 @@ function login() {
     return;
   }
 
+  //--------------------------------------------------------------------------------------------------------------------
+
   if (!user) {
     alert("User not registered. Please register first.");
     return;
@@ -138,7 +106,7 @@ function login() {
 
   // Check if the role matches
   if (user.role !== portalType) {
-    alert(`Invalid credentials for ${portalType}.`);
+    alert("Invalid credentials for ${portalType}.");
     return;
   }
 
@@ -179,12 +147,13 @@ function showAdminProfile() {
 
 function logout() {
   document.getElementById("adminPortal").style.display = "none";
-  document.getElementById("customerPortal").style.display = "none";
   showLogin();
 }
 
-// Customer portal
+//customer portal
+
 function showCustomerPortal() {
+  //hideAllSections();
   document.getElementById("loginPage").style.display = "none";
   document.getElementById("customerPortal").style.display = "block";
   showTab("home");
