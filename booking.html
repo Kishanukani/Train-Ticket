@@ -70,6 +70,12 @@
                     <option value="sleeper">Sleeper</option>
                     <option value="ac">AC</option>
                 </select>
+
+                <label for="status">Booking Status:</label>
+                <select class="status" required>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="waiting">Waiting</option>
+                </select>
                 <button type="button" onclick="removePassenger(this)">Remove</button>
             `;
             passengerContainer.appendChild(newPassenger);
@@ -87,7 +93,8 @@
                 const name = div.querySelector('.passengerName').value;
                 const age = div.querySelector('.age').value;
                 const seatClass = div.querySelector('.seatClass').value;
-                passengers.push(`Name: ${name}, Age: ${age}, Seat Class: ${seatClass}`);
+                const status = div.querySelector('.status').value;
+                passengers.push(`Name: ${name}, Age: ${age}, Seat Class: ${seatClass}, Status: ${status}`);
             });
 
             const trainDetailsString = localStorage.getItem("selectedTrain");

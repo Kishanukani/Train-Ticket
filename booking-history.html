@@ -149,6 +149,8 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const historyContainer = document.getElementById("historyContainer");
+
+            // Retrieve booking history from localStorage
             const bookingHistory = localStorage.getItem("bookingHistory") || "";
 
             const formattedHistory = formatHistory(bookingHistory);
@@ -163,42 +165,44 @@
             const historyEntries = history.split('|').filter(entry => entry.trim() !== '');
 
             return historyEntries.map((entry, index) => {
-                // const details = entry.split(','); // Assuming details are separated by semicolons
                 const details = entry.split(/[,/]+/); // Split by commas and hyphens
 
                 const trainDetails = details[0]; // First part: Train info
                 const passengerDetails = details.slice(1).join('<br>'); // Remaining parts: Passengers info
 
                 return `
-            <div class="booking-entry">
-                <h3>Booking ${index + 1}</h3>
-                <p>${trainDetails}</p>
-                <p>${passengerDetails}</p>
-            </div>
-        `;
+                    <div class="booking-entry">
+                        <h3>Booking ${index + 1}</h3>
+                        <p>${trainDetails}</p>
+                        <p>${passengerDetails}</p>
+                    </div>
+                `;
             }).join('');
         }
-
 
         function filterHistory() {
             const trainFilter = document.getElementById("trainFilter").value.toLowerCase();
             const dateFilter = document.getElementById("dateFilter").value;
             const statusFilter = document.getElementById("statusFilter").value;
 
+            // Retrieve booking history from localStorage
             const bookingHistory = localStorage.getItem("bookingHistory") || "";
             let historyEntries = bookingHistory.split('|').filter(entry => entry.trim() !== '');
 
+            // Filter by train name
             if (trainFilter) {
                 historyEntries = historyEntries.filter(entry => entry.toLowerCase().includes(trainFilter));
             }
 
+            // Filter by date
             if (dateFilter) {
                 const date = new Date(dateFilter).toISOString().split('T')[0];
                 historyEntries = historyEntries.filter(entry => entry.includes(date));
             }
 
+            // Filter by status (case-insensitive)
             if (statusFilter) {
-                historyEntries = historyEntries.filter(entry => entry.includes(statusFilter));
+                historyEntries = historyEntries.filter(entry => entry.toLowerCase().includes(statusFilter.toLowerCase()));
             }
 
             const formattedHistory = formatHistory(historyEntries.join('|'));
@@ -209,7 +213,7 @@
             document.getElementById("trainFilter").value = '';
             document.getElementById("dateFilter").value = '';
             document.getElementById("statusFilter").value = '';
-            filterHistory();
+            filterHistory(); // Reset the filtered results
         }
     </script>
 </body>
