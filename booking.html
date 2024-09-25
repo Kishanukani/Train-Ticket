@@ -50,20 +50,30 @@
                     <p>Available AC Seats: ${trainDetails.availableAC}</p>
                 `;
             }
-            addPassenger();
+            addPassenger(); // Add the first passenger by default
         });
 
         function addPassenger() {
             const passengerContainer = document.getElementById("passengerContainer");
+            const passengerCount = document.querySelectorAll('.passenger').length;
+
             const newPassenger = document.createElement("div");
             newPassenger.classList.add("passenger");
 
             newPassenger.innerHTML = `
                 <label for="passengerName">Passenger Name:</label>
-                <input type="text" class="passengerName" required>
+                <input type="text" class="passengerName" required pattern="[A-Za-z ]+" title="Only letters and spaces allowed">
 
                 <label for="age">Age:</label>
-                <input type="number" class="age" required>
+                <input type="number" class="age" required min="1" max="100" title="Age must be between 1 and 100">
+
+                <label for="gender">Gender:</label>
+                <select class="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
 
                 <label for="seatClass">Seat Class:</label>
                 <select class="seatClass" required>
@@ -71,19 +81,22 @@
                     <option value="ac">AC</option>
                 </select>
 
-                <label for="status">Booking Status:</label>
-                <select class="status" required>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="waiting">Waiting</option>
-                </select>
-                <button type="button" onclick="removePassenger(this)">Remove</button>
-            `;
+                <button id="remv-btn" type="button" ${passengerCount === 0 ? 'disabled' : ''} onclick="removePassenger(this)">Remove</button>
+                `;
+
             passengerContainer.appendChild(newPassenger);
         }
 
         function removePassenger(button) {
             const passenger = button.parentElement;
+            const passengerContainer = document.getElementById("passengerContainer");
             passenger.remove();
+
+            const remainingPassengers = document.querySelectorAll('.passenger');
+            if (remainingPassengers.length === 1) {
+                // Disable remove button if only one passenger is left
+                remainingPassengers[0].querySelector("button").disabled = true;
+            }
         }
 
         function storePassengerDetails() {
@@ -92,28 +105,31 @@
             passengerDivs.forEach(div => {
                 const name = div.querySelector('.passengerName').value;
                 const age = div.querySelector('.age').value;
+                const gender = div.querySelector('.gender').value;
                 const seatClass = div.querySelector('.seatClass').value;
-                const status = div.querySelector('.status').value;
-                passengers.push(`Name: ${name}, Age: ${age}, Seat Class: ${seatClass}, Status: ${status}`);
+                const status = 'Confirmed'; // Automatically set the status to confirmed
+                passengers.push(`Name: ${name}, Age: ${age}, Gender: ${gender}, Seat Class: ${seatClass}, Status: ${status}`);
             });
 
             const trainDetailsString = localStorage.getItem("selectedTrain");
             if (trainDetailsString) {
                 const trainDetailsArray = trainDetailsString.split(',');
                 if (trainDetailsArray.length >= 5) {
+                    // Store train and passenger details in a cleaner format
                     const bookingDetails = `
-                        Train: ${trainDetailsArray[0]}, 
-                        Source: ${trainDetailsArray[1]}, 
-                        Destination: ${trainDetailsArray[2]}, 
-                        Date: ${trainDetailsArray[3]}, 
-                        Passengers: ${passengers.join(' / ')}
-                    `;
+                Train: ${trainDetailsArray[0].split(':')[1].trim()}, 
+                Source: ${trainDetailsArray[1].split(':')[1].trim()}, 
+                Destination: ${trainDetailsArray[2].split(':')[1].trim()}, 
+                Date: ${trainDetailsArray[3].split(':')[1].trim()}, 
+                Passengers: ${passengers.join(' / ')}
+            `;
 
                     // Append booking details to booking history
                     const existingHistory = localStorage.getItem("bookingHistory") || "";
                     localStorage.setItem("bookingHistory", existingHistory + bookingDetails + '|');
 
-                    localStorage.setItem("bookingDetails", bookingDetails);
+                    // Store booking details
+                    localStorage.setItem("bookingDetails", bookingDetails.trim());
                     alert("Booking successful!");
                     window.open("payment.html", "_blank");
                 } else {
@@ -123,6 +139,7 @@
                 alert("Error: Train details not found.");
             }
         }
+
     </script>
 </body>
 

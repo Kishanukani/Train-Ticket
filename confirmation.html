@@ -100,8 +100,16 @@
         document.addEventListener("DOMContentLoaded", () => {
             const bookingDetails = localStorage.getItem("bookingDetails");
             if (bookingDetails) {
-                // Format booking details with new lines for clarity
-                const formattedBookingDetails = bookingDetails.replace(/,\s*/g, '<br>');
+                // Split the booking details into individual lines
+                const formattedBookingDetails = bookingDetails
+                    .replace(/,\s*/g, '<br>') // Replace commas with line breaks
+                    .replace(/Train:/, 'Train Name:') // Change label to Train Name
+                    .replace(/Source:/, 'Source:') // Ensure Source is correct
+                    .replace(/Destination:/, 'Destination:') // Ensure Destination is correct
+                    .replace(/Date:/, 'Date:') // Ensure Date is correct
+                    .replace(/Passengers:/, 'Passengers: <br>'); // Ensure Passengers label is formatted
+
+                // Display the formatted booking details
                 document.getElementById("bookingDetails").innerHTML = `
                     <div class="details-title">Booking Summary:</div>
                     <div class="details-content">${formattedBookingDetails}</div>
@@ -111,6 +119,7 @@
             }
         });
     </script>
+
 
 </body>
 

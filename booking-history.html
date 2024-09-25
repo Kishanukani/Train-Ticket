@@ -109,6 +109,15 @@
             color: red;
             font-size: 18px;
         }
+
+        .cancel-button {
+            background-color: red;
+            margin-top: 10px;
+        }
+
+        .cancel-button:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 
@@ -126,19 +135,20 @@
 
         <div class="filters">
             <label for="trainFilter">Filter by Train Name:</label>
-            <input type="text" id="trainFilter" placeholder="Enter Train Name" oninput="filterHistory()">
+            <input type="text" id="trainFilter" placeholder="Enter Train Name">
 
             <label for="dateFilter">Filter by Date:</label>
-            <input type="date" id="dateFilter" oninput="filterHistory()">
+            <input type="date" id="dateFilter">
 
             <label for="statusFilter">Filter by Status:</label>
-            <select id="statusFilter" onchange="filterHistory()">
+            <select id="statusFilter">
                 <option value="">All</option>
                 <option value="Confirmed">Confirmed</option>
                 <option value="Pending">Pending</option>
                 <option value="Cancelled">Cancelled</option>
             </select>
 
+            <button class="button" onclick="filterHistory()">Search</button>
             <button class="button" onclick="resetFilters()">Reset Filters</button>
         </div>
 
@@ -175,6 +185,7 @@
                         <h3>Booking ${index + 1}</h3>
                         <p>${trainDetails}</p>
                         <p>${passengerDetails}</p>
+                        <button class="button cancel-button" onclick="cancelTicket(${index})">Cancel Ticket</button>
                     </div>
                 `;
             }).join('');
@@ -214,6 +225,23 @@
             document.getElementById("dateFilter").value = '';
             document.getElementById("statusFilter").value = '';
             filterHistory(); // Reset the filtered results
+        }
+
+        function cancelTicket(index) {
+            if (confirm("Are you sure you want to cancel this ticket?")) {
+                const bookingHistory = localStorage.getItem("bookingHistory") || "";
+                let historyEntries = bookingHistory.split('|').filter(entry => entry.trim() !== '');
+
+                // Remove the selected entry
+                historyEntries.splice(index, 1);
+
+                // Save the updated history back to localStorage
+                localStorage.setItem("bookingHistory", historyEntries.join('|'));
+
+                // Refresh the booking history display
+                const historyContainer = document.getElementById("historyContainer");
+                historyContainer.innerHTML = formatHistory(historyEntries.join('|'));
+            }
         }
     </script>
 </body>

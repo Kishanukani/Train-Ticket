@@ -15,22 +15,48 @@
 
         <form onsubmit="event.preventDefault(); processPayment();">
             <label for="cardNumber">Card Number:</label>
-            <input type="text" id="cardNumber" placeholder="Enter your card number" required>
+            <input type="text" id="cardNumber" placeholder="Enter your card number" required pattern="[0-9]{16}"
+                title="Please enter a 16-digit card number">
 
             <label for="expiryDate">Expiry Date:</label>
             <input type="month" id="expiryDate" required>
 
             <label for="cvv">CVV:</label>
-            <input type="password" id="cvv" placeholder="Enter CVV" required maxlength="3">
+            <input type="password" id="cvv" placeholder="Enter CVV" required pattern="[0-9]{3}"
+                title="Enter a 3-digit CVV" maxlength="3">
 
             <button type="submit">Complete Payment</button>
         </form>
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const expiryDateInput = document.getElementById("expiryDate");
+
+            // Set minimum value for expiry date to the current month
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Get the current month and format as 2 digits
+            const minExpiryDate = `${year}-${month}`;
+
+            expiryDateInput.min = minExpiryDate;
+        });
+
         function processPayment() {
-            alert("Payment Successful! Booking Confirmed.");
-            window.location.href = "confirmation.html"; // Redirect to confirmation page
+            const cardNumber = document.getElementById("cardNumber").value;
+            const expiryDate = document.getElementById("expiryDate").value;
+            const cvv = document.getElementById("cvv").value;
+
+            if (!cardNumber || !expiryDate || !cvv) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            // Simulate payment processing delay
+            setTimeout(() => {
+                alert("Payment Successful! Booking Confirmed.");
+                window.location.href = "confirmation.html"; // Redirect to confirmation page
+            }, 1000); // Simulates a 1-second delay
         }
     </script>
 

@@ -197,3 +197,17 @@ strong {
     background: #f9f9f9;
     border-radius: 5px;
 }
+
+#remv-btn{
+position: relative;
+left: 88%;
+}
+
+.age{
+    width: 5%;
+}
+
+
+.gender{
+    width: 10%;
+}

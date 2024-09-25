@@ -46,7 +46,7 @@
                 source: "cityA",
                 destination: "cityB",
                 availableSeats: { sleeper: 20, ac: 10 },
-                travelDates: ["2024-09-22", "2024-09-23"],
+                travelDates: ["2024-09-27", "2024-09-28"],
                 stations: ["cityA", "cityC", "cityD", "cityB"],
             },
             {
@@ -54,10 +54,75 @@
                 source: "cityA",
                 destination: "cityB",
                 availableSeats: { sleeper: 15, ac: 5 },
-                travelDates: ["2024-09-22", "2024-09-24"],
+                travelDates: ["2024-09-28", "2024-09-29"],
                 stations: ["cityA", "cityE", "cityB"],
             },
+            {
+                name: "Night Rider Express",
+                source: "cityC",
+                destination: "cityD",
+                availableSeats: { sleeper: 25, ac: 8 },
+                travelDates: ["2024-09-27", "2024-09-30"],
+                stations: ["cityC", "cityA", "cityD"],
+            },
+            {
+                name: "Morning Star",
+                source: "cityE",
+                destination: "cityF",
+                availableSeats: { sleeper: 10, ac: 20 },
+                travelDates: ["2024-09-28", "2024-09-30"],
+                stations: ["cityE", "cityF"],
+            },
+            {
+                name: "Coastal Express",
+                source: "cityG",
+                destination: "cityH",
+                availableSeats: { sleeper: 30, ac: 15 },
+                travelDates: ["2024-09-27", "2024-09-29"],
+                stations: ["cityG", "cityH"],
+            },
+            {
+                name: "Mountain Express",
+                source: "cityI",
+                destination: "cityJ",
+                availableSeats: { sleeper: 12, ac: 6 },
+                travelDates: ["2024-09-27", "2024-10-01"],
+                stations: ["cityI", "cityK", "cityJ"],
+            },
+            {
+                name: "Lake View Express",
+                source: "cityL",
+                destination: "cityM",
+                availableSeats: { sleeper: 20, ac: 10 },
+                travelDates: ["2024-09-28", "2024-09-30"],
+                stations: ["cityL", "cityM"],
+            },
+            {
+                name: "Sunrise Express",
+                source: "cityN",
+                destination: "cityO",
+                availableSeats: { sleeper: 18, ac: 12 },
+                travelDates: ["2024-09-29", "2024-10-01"],
+                stations: ["cityN", "cityO"],
+            },
+            {
+                name: "CityLink Express",
+                source: "cityP",
+                destination: "cityQ",
+                availableSeats: { sleeper: 20, ac: 8 },
+                travelDates: ["2024-09-27", "2024-09-28"],
+                stations: ["cityP", "cityR", "cityQ"],
+            },
+            {
+                name: "Heritage Express",
+                source: "cityS",
+                destination: "cityT",
+                availableSeats: { sleeper: 25, ac: 10 },
+                travelDates: ["2024-09-29", "2024-10-02"],
+                stations: ["cityS", "cityT"],
+            }
         ];
+
 
         function searchTrains() {
             const sourceInput = document.getElementById("source").value;
@@ -106,6 +171,24 @@
             localStorage.setItem("selectedTrain", selectedTrain);
             window.open("booking.html", "_blank");
         }
+
+
+        function setMinDate() {
+            const dateInput = document.getElementById("dateInputId");
+            const today = new Date();
+
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+            const day = String(today.getDate()).padStart(2, '0');
+
+            const todayString = `${year}-${month}-${day}`;
+
+            dateInput.min = todayString;  // Set today's date as the minimum
+        }
+
+        // Call the function to set the minimum date restriction when the page loads
+        window.onload = setMinDate;
+
     </script>
 </body>
 
