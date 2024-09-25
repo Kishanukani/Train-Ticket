@@ -129,18 +129,30 @@
             const destinationInput = document.getElementById("destination").value;
             const dateInput = document.getElementById("dateInputId").value;
 
+            // Debugging log to check inputs
+            console.log("Source: " + sourceInput);
+            console.log("Destination: " + destinationInput);
+            console.log("Date Input: " + dateInput);
+
             const availableTrains = trains.filter(train => {
                 return (train.stations.includes(sourceInput) || train.source.toLowerCase() === sourceInput.toLowerCase()) &&
                     (train.stations.includes(destinationInput) || train.destination.toLowerCase() === destinationInput.toLowerCase()) &&
                     train.travelDates.includes(dateInput);
             });
 
+            // Debugging log to check available trains
+            console.log("Available trains: ", availableTrains);
+
             displayTrains(availableTrains, dateInput); // Pass dateInput here
         }
 
+
         function displayTrains(availableTrains, dateInput) {
             const resultContainer = document.getElementById("trainList");
-            resultContainer.innerHTML = "";
+            resultContainer.innerHTML = ""; // Clear previous results
+
+            // Show the search results container regardless of the availability
+            document.getElementById("searchResults").classList.remove("hidden");
 
             if (availableTrains.length === 0) {
                 resultContainer.innerHTML = "<p>No trains available for the given route and date.</p>";
@@ -161,8 +173,6 @@
         `;
                 resultContainer.appendChild(trainElement);
             });
-
-            document.getElementById("searchResults").classList.remove("hidden");
         }
 
 
